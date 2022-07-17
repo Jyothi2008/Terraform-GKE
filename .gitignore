@@ -1,4 +1,3 @@
 .terraform*
 service-account.json
-network.tf
 instances.tf
