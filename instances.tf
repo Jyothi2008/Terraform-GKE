@@ -9,7 +9,7 @@ resource "google_compute_instance" "test1" {
         }
     }
     network_interface {
-        network = "default"
+        subnetwork  = google_compute_subnetwork.public_subnet_1.self_link
         access_config {
       // Ephemeral public IP
     }
