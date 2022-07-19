@@ -12,4 +12,8 @@ resource "google_compute_instance" "private-vm" {
         subnetwork  = google_compute_subnetwork.management_subnet.self_link
         network_ip = "10.0.1.2"
     }
+    service_account {
+    email  = google_service_account.k8s-service-account.email
+    scopes = ["cloud-platform"]
+    }
 }
