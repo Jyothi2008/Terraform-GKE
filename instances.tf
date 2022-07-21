@@ -16,4 +16,5 @@ resource "google_compute_instance" "private-vm" {
     email  = google_service_account.k8s-service-account.email
     scopes = ["cloud-platform"]
     }
+    metadata_startup_script = file("./install_kubectl.sh")
 }
