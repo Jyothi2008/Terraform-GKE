@@ -15,4 +15,12 @@ resource "google_compute_subnetwork" "restricted_subnet" {
   ip_cidr_range = "10.0.2.0/24"
   region        = var.region
   network       = google_compute_network.my_vpc.id
+  secondary_ip_range {
+  range_name    = "pods"
+  ip_cidr_range = "192.168.1.0/24"
+  }
+  secondary_ip_range {
+  range_name    = "nodes"
+  ip_cidr_range = "192.168.2.0/24"
+  }
 }
