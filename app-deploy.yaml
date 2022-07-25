@@ -1,0 +1,20 @@
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "hello-app"
+  namespace: "default"
+  labels:
+    app: "myapp"
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: "myapp"
+  template:
+    metadata:
+      labels:
+        app: "myapp"
+    spec:
+      containers:
+      - name: "my-app"
+        image: "us.gcr.io/abdo-project-12345-354211/hello-world@sha256:1ce4dbd4220b090156ada88a47f888775e5413a358bd3c1877647c4eca8407a0"
