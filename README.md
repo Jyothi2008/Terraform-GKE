@@ -14,9 +14,15 @@ build app using docker and push it on GCR repo on my project on GCP oand deploy 
 
 ![image](https://user-images.githubusercontent.com/104630009/180807017-00afc25c-7cf6-43c5-b11b-3ba0c0587783.png)
 ### Network
-- i created a VPC and 2 subnets coded as the following
-https://cloud.google.com/kubernetes-engine/docs/how-to/private-clusters
-![image](https://user-images.githubusercontent.com/104630009/180805524-9f316268-4244-477f-aab4-1f11e735c187.png)
+- i created a VPC with routing mode ragional as all my infrastructure will impelmented in the same region
+![image](https://user-images.githubusercontent.com/104630009/180845657-eb89a9e0-ff54-4591-b254-ddd03fe13874.png)
+
+- Subnet with CIDR range [10.0.1.24/24] in my VPC and name it management subnet 
+![image](https://user-images.githubusercontent.com/104630009/180845957-9777b197-391a-4a3d-b391-b6feeca8e5d2.png)
+
+- Subnet with CIDR range [10.0.2.24/24] in my VPC and name it restricted subnet with two secondry ip ranges for the cluster pods and cluster services 
+![image](https://user-images.githubusercontent.com/104630009/180846280-564d5931-97d3-4078-bd01-897be67d6785.png)
+
 - Then created the firewalll to accept only ssh connection on port 22 with a target to tag to assign it to my private subnet only and not the cluster
 ![image](https://user-images.githubusercontent.com/104630009/180830714-b23d4918-386e-49a7-a211-a0b8a9d51276.png)
 - Then the router to assign it to the Nat gatway for the vpc
