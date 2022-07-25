@@ -1,4 +1,4 @@
-# Terraform-GCP
+# Deploying app using terraform and GCP  
 build app using docker and push it on GCR repo on my project on GCP oand deploy it on kubernetes cluster provisioned using terraform (IaC) on google cloud platform
 ## Building the app 
 ### I built the app using docker by creating the following Dockerfile
