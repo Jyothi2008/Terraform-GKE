@@ -36,6 +36,19 @@ build app using docker and push it on GCR repo on my project on GCP oand deploy 
 - The one for my cluster have the Role of storage viwer to have permission to pull the images from my GCR repo
 ![image](https://user-images.githubusercontent.com/104630009/180833016-c90b6847-b723-4767-ada3-bc0d38650d27.png)
 ### Computing instance and GKE
+## private VM
 - Creating an instance in my managment subnet having tag [ssh] to allow the traffic on port 22 using my firewall and assign the service account to access the GKE 
 ![image](https://user-images.githubusercontent.com/104630009/180833348-48cce134-38c4-46c5-ad1d-29cb11657215.png)
-- GKE 
+## GKE 
+- I created the GKE with in same region zone 'a' using variable 'region' in my VPC and defining the default created node pool to false to create my own pool but but the intial node count by 1 to create the master node in it 
+![image](https://user-images.githubusercontent.com/104630009/180889728-1a055340-b996-4aaa-9b19-154dcb9dc134.png)
+- ip allocation policy is where i define my pods and services IPs ranges are and this is what i have defined eariler in my restricted subnet as secondry IPs ranges
+![image](https://user-images.githubusercontent.com/104630009/180890608-f4f817ea-65bb-4d8f-a31a-0649321f077e.png)
+- configuring the private endpoints and nodes as true as make my cluster private and have no access from outside the subnet and assigning the master_ipv4_cidr_block with range of IPs does not overlap any IPs range of the cluster network to assign a private IP to ILB and my master node to be able to communicate with the worker nodes 
+![image](https://user-images.githubusercontent.com/104630009/180891272-9a0916ef-34b1-495b-b9a9-ce85eb94270d.png)
+- configure a master authorized network which is my managment subnet CIDR range to open the communication between the private VM and the master node to control the cluster from it 
+![image](https://user-images.githubusercontent.com/104630009/180891330-9fb59138-7b88-4544-b430-bab4c6d5bb02.png)
+- creating my worker node pool with name node pool in the same zone where is my cluster and assign the service account which allow give permission Role storage.Voewer to allow the nodes to pull images on GCR or Artifact repos and setting the scoop to be on all  
+- creating my worker node pool with name node pool in the same zone where is my cluster and assign the service account which allow give permission Role storage.Voewer to allow the nodes to pull images on GCR or Artifact repos and setting the scoop to be on all  platform
+![image](https://user-images.githubusercontent.com/104630009/180891644-114dec81-1af3-4151-9f60-4392233a7ed0.png)
+
