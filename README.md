@@ -15,6 +15,7 @@ build app using docker and push it on GCR repo on my project on GCP oand deploy 
 ![image](https://user-images.githubusercontent.com/104630009/180807017-00afc25c-7cf6-43c5-b11b-3ba0c0587783.png)
 ### Network
 - i created a VPC and 2 subnets coded as the following
+https://cloud.google.com/kubernetes-engine/docs/how-to/private-clusters
 ![image](https://user-images.githubusercontent.com/104630009/180805524-9f316268-4244-477f-aab4-1f11e735c187.png)
 - Then created the firewalll to accept only ssh connection on port 22 with a target to tag to assign it to my private subnet only and not the cluster
 ![image](https://user-images.githubusercontent.com/104630009/180830714-b23d4918-386e-49a7-a211-a0b8a9d51276.png)
