@@ -31,4 +31,4 @@ build app using docker and push it on GCR repo on my project on GCP oand deploy 
 ### Computing instance and GKE
 - Creating an instance in my managment subnet having tag [ssh] to allow the traffic on port 22 using my firewall and assign the service account to access the GKE 
 ![image](https://user-images.githubusercontent.com/104630009/180833348-48cce134-38c4-46c5-ad1d-29cb11657215.png)
-- 
+- GKE 
