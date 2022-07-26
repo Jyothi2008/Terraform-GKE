@@ -35,11 +35,11 @@ build app using docker and push it on GCR repo on my project on GCP oand deploy 
 ![image](https://user-images.githubusercontent.com/104630009/180832720-8ecdd7b6-5c5f-4f8a-9245-19d44504be80.png)
 - The one for my cluster have the Role of storage viwer to have permission to pull the images from my GCR repo
 ![image](https://user-images.githubusercontent.com/104630009/180833016-c90b6847-b723-4767-ada3-bc0d38650d27.png)
-### Computing instance and GKE
-## private VM
-- Creating an instance in my managment subnet having tag [ssh] to allow the traffic on port 22 using my firewall and assign the service account to access the GKE 
+## Computing instance and GKE
+### private VM
+- Creating an instance in my managment subnet having tag [ssh] to allow the traffic on port 22 using my firewall and assign the service account to access the GKE and assign a strtup script to install gcloud and kubectl whicl i will discuss below 
 ![image](https://user-images.githubusercontent.com/104630009/180833348-48cce134-38c4-46c5-ad1d-29cb11657215.png)
-## GKE 
+### GKE 
 - I created the GKE with in same region zone 'a' using variable 'region' in my VPC and defining the default created node pool to false to create my own pool but but the intial node count by 1 to create the master node in it 
 ![image](https://user-images.githubusercontent.com/104630009/180889728-1a055340-b996-4aaa-9b19-154dcb9dc134.png)
 - ip allocation policy is where i define my pods and services IPs ranges are and this is what i have defined eariler in my restricted subnet as secondry IPs ranges
@@ -51,4 +51,38 @@ build app using docker and push it on GCR repo on my project on GCP oand deploy 
 - creating my worker node pool with name node pool in the same zone where is my cluster and assign the service account which allow give permission Role storage.Voewer to allow the nodes to pull images on GCR or Artifact repos and setting the scoop to be on all  
 - creating my worker node pool with name node pool in the same zone where is my cluster and assign the service account which allow give permission Role storage.Voewer to allow the nodes to pull images on GCR or Artifact repos and setting the scoop to be on all  platform
 ![image](https://user-images.githubusercontent.com/104630009/180891644-114dec81-1af3-4151-9f60-4392233a7ed0.png)
-
+## provision the infrastructure
+- Now i can provision this infrastructure using terraform command `terraform apply`
+![image](https://user-images.githubusercontent.com/104630009/180893072-e79b58cf-5b5e-415c-8dbe-1a01f7c03d50.png)
+## setting up the VM 
+### startup script 
+- i script the following bash script to add gcloud repo then install the gcloud and intiate it and add the kubectl repo and update the packages then install it 
+![image](https://user-images.githubusercontent.com/104630009/180892634-2c54d4ea-6cb1-4729-8021-f636e5bc7423.png)
+### ssh to the private VM 
+- Now i need to ssh the private VM to setup my configuration to my cluster and script the deployment and service yaml files to deploy my app and expose it 
+- so first i made sure that the user i use is authorized to access my project and resources 
+![image](https://user-images.githubusercontent.com/104630009/180893970-a4460fc0-c801-4bd8-833a-392aacbe9907.png)
+- next i ssh my private VM using the `gcloud compute ssh` command
+![image](https://user-images.githubusercontent.com/104630009/180894134-f1dadba5-a8f6-48c4-a0eb-4b4d2f8b6d9f.png)
+- after ensure that kubectl and gcloud is installed
+- ![image](https://user-images.githubusercontent.com/104630009/180894344-71084e61-a0a4-41dd-a813-0d59a442bc1f.png)
+![image](https://user-images.githubusercontent.com/104630009/180894409-20ff8256-dd4a-4573-b5fa-615a1f3f24c2.png)
+- i configured my cluster using `gcloud container cluster get-credetintials` 
+![image](https://user-images.githubusercontent.com/104630009/180894809-189a0a3c-742d-4221-a4ae-675c3bafc262.png)
+- Now i can write my deployment and service yaml file to deploy them, so did i 
+![image](https://user-images.githubusercontent.com/104630009/180894990-8d9cd0e5-37ec-4707-88ce-7baec5b60203.png)
+![image](https://user-images.githubusercontent.com/104630009/180895003-03969ed7-5924-48b7-810c-ff19bd261bbd.png)
+- Now deploy them using `kubectl apply`
+![image](https://user-images.githubusercontent.com/104630009/180895235-336cf6e2-b902-4da2-9ceb-2b0ba1f097e1.png)
+![image](https://user-images.githubusercontent.com/104630009/180895369-a9dd8892-4a9b-4307-aaa2-a09212a677fa.png)
+## THE END 
+### now ckecking that everything is working as it should be 
+- my pods are working correctly 
+![image](https://user-images.githubusercontent.com/104630009/180895527-0bbbe613-68f8-4882-9477-11fdc997e0f3.png)
+- my service having its external IP and its selector is set to my pods tag 
+![image](https://user-images.githubusercontent.com/104630009/180895774-ffbde289-c230-4030-8ede-0278b6749f66.png) 
+- and its endpoint are my pods private IPs on port 8000
+![image](https://user-images.githubusercontent.com/104630009/180895595-993748ca-67b4-4bf0-81e8-09d255d4bf0d.png)
+- testing the LB external IP with port 8000 on my browser 
+![image](https://user-images.githubusercontent.com/104630009/180895962-8e946c57-e14f-4c9a-89f7-ace3c6b9a180.png)
+- And everything is working perfectly!
