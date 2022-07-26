@@ -1,5 +1,5 @@
 # Deploying app using terraform and GCP  
-build app using docker and push it on GCR repo on my project on GCP oand deploy it on kubernetes cluster provisioned using terraform (IaC) on google cloud platform
+Build app using docker and push it to GCR repo on my project on GCP oand deploy it on private kubernetes cluster controlled by private vm, all infrastructure have provisioned using terraform (IaC).
 ## Building the app 
 ### I built the app using docker by creating the following Dockerfile
 ![image](https://user-images.githubusercontent.com/104630009/180803787-be3a0e38-aa6f-4198-bfad-0f2d601bc50d.png)
@@ -14,7 +14,7 @@ build app using docker and push it on GCR repo on my project on GCP oand deploy 
 
 ![image](https://user-images.githubusercontent.com/104630009/180807017-00afc25c-7cf6-43c5-b11b-3ba0c0587783.png)
 ### Network
-- i created a VPC with routing mode ragional as all my infrastructure will impelmented in the same region
+- I created a VPC with routing mode ragional as all my infrastructure will impelmented in the same region
 ![image](https://user-images.githubusercontent.com/104630009/180845657-eb89a9e0-ff54-4591-b254-ddd03fe13874.png)
 
 - Subnet with CIDR range [10.0.1.24/24] in my VPC and name it management subnet 
@@ -48,7 +48,6 @@ build app using docker and push it on GCR repo on my project on GCP oand deploy 
 ![image](https://user-images.githubusercontent.com/104630009/180891272-9a0916ef-34b1-495b-b9a9-ce85eb94270d.png)
 - configure a master authorized network which is my managment subnet CIDR range to open the communication between the private VM and the master node to control the cluster from it 
 ![image](https://user-images.githubusercontent.com/104630009/180891330-9fb59138-7b88-4544-b430-bab4c6d5bb02.png)
-- creating my worker node pool with name node pool in the same zone where is my cluster and assign the service account which allow give permission Role storage.Voewer to allow the nodes to pull images on GCR or Artifact repos and setting the scoop to be on all  
 - creating my worker node pool with name node pool in the same zone where is my cluster and assign the service account which allow give permission Role storage.Voewer to allow the nodes to pull images on GCR or Artifact repos and setting the scoop to be on all  platform
 ![image](https://user-images.githubusercontent.com/104630009/180891644-114dec81-1af3-4151-9f60-4392233a7ed0.png)
 ## provision the infrastructure
@@ -56,11 +55,11 @@ build app using docker and push it on GCR repo on my project on GCP oand deploy 
 ![image](https://user-images.githubusercontent.com/104630009/180893072-e79b58cf-5b5e-415c-8dbe-1a01f7c03d50.png)
 ## setting up the VM 
 ### startup script 
-- i script the following bash script to add gcloud repo then install the gcloud and intiate it and add the kubectl repo and update the packages then install it 
+- I script the following bash script to add gcloud repo then install the gcloud and intiate it and add the kubectl repo and update the packages then install it 
 ![image](https://user-images.githubusercontent.com/104630009/180892634-2c54d4ea-6cb1-4729-8021-f636e5bc7423.png)
 ### ssh to the private VM 
 - Now i need to ssh the private VM to setup my configuration to my cluster and script the deployment and service yaml files to deploy my app and expose it 
-- so first i made sure that the user i use is authorized to access my project and resources 
+- So first i made sure that the user i use is authorized to access my project and resources 
 ![image](https://user-images.githubusercontent.com/104630009/180893970-a4460fc0-c801-4bd8-833a-392aacbe9907.png)
 - next i ssh my private VM using the `gcloud compute ssh` command
 ![image](https://user-images.githubusercontent.com/104630009/180894134-f1dadba5-a8f6-48c4-a0eb-4b4d2f8b6d9f.png)
