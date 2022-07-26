@@ -1,5 +1,7 @@
 # Deploying app using terraform and GCP  
 Build app using docker and push it to GCR repo on my project on GCP oand deploy it on private kubernetes cluster controlled by private vm, all infrastructure have provisioned using terraform (IaC).
+![image](https://user-images.githubusercontent.com/104630009/180981157-1b132c28-1594-4951-860a-2f8007d12838.png)
+
 ## Building the app 
 ### I built the app using docker by creating the following Dockerfile
 ![image](https://user-images.githubusercontent.com/104630009/180803787-be3a0e38-aa6f-4198-bfad-0f2d601bc50d.png)
