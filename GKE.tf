@@ -1,30 +1,18 @@
 resource "google_container_cluster" "my-gke" {
     name     = "my-gke"
     location = "${var.region}-a"
-
+    #the vpc where the cluster will be
     network = google_compute_network.my_vpc.name
-
     subnetwork = google_compute_subnetwork.restricted_subnet.name
-
+    #to create my node pool manually
     remove_default_node_pool = true
     initial_node_count       = 1 
-    networking_mode = "VPC_NATIVE"
-    
+    # to allocate the secondry IPs provided by my subnet to the pods and services
     ip_allocation_policy {
         cluster_secondary_range_name = google_compute_subnetwork.restricted_subnet.secondary_ip_range.0.range_name
         services_secondary_range_name = google_compute_subnetwork.restricted_subnet.secondary_ip_range.1.range_name
     }
-
-    release_channel {
-        channel = "REGULAR"
-    }
-
-    network_policy {
-        provider = "PROVIDER_UNSPECIFIED"
-        enabled  = true
-    }
-
-
+    #to disable any access to my cluster from outside my vpc 
     private_cluster_config {
     enable_private_endpoint = true
     enable_private_nodes = true
@@ -35,11 +23,9 @@ resource "google_container_cluster" "my-gke" {
     cidr_blocks {
         cidr_block = google_compute_subnetwork.management_subnet.ip_cidr_range
         display_name = "auth_master"
+        }
     }
 }
-
-}
-
 
 resource "google_container_node_pool" "my_node_pool" {
     name       = "node-pool"
